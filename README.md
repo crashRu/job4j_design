@@ -2,8 +2,8 @@
 
 # job4j_tracker
 
-[git, clone, https://github.com/crashRu/job4j_tracker]
-Cloning into 'job4j_tracker'...
+[git, clone, https://github.com/crashRu/job4j_design]
+Cloning into 'job4j_design'...
 
 [git, checkout, -b, 20152, cf685242dc13f3a1c543bd4c9fae3c0582e0c4dd]
 Switched to a new branch '20152'
