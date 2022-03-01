@@ -1,29 +1,32 @@
 [![Build Status](https://travis-ci.com/crashRu/job4j_tracker.svg?branch=master)](https://travis-ci.com/crashRu/job4j_tracker)
 
 # job4j_tracker
-
-[git, clone, https://github.com/crashRu/job4j_design]
-Cloning into 'job4j_design'...
-
-[git, checkout, -b, 20152, cf685242dc13f3a1c543bd4c9fae3c0582e0c4dd]
-Switched to a new branch '20152'
-
-[INFO] Scanning for projects...
-[INFO]
-[INFO] --------------------------< ru.job4j:tracker >--------------------------
-[INFO] Building tracker 1.0
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO]
-[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ tracker ---
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  0.129 s
-[INFO] Finished at: 2021-10-04T21:38:12+02:00
-[INFO] ------------------------------------------------------------------------
-
-Проверка Job4j CQP https://github.com/peterarsentev/code_quality_principles/wiki/Правила-написания-кода-Job4j
-
-[ERROR] file - README.md:0:0
-Нарушение - Файл README.md не заполнен. length < 150.
-Описание - https://github.com/peterarsentev/code_quality_principles/wiki/Описание-проекта-README.md
+Это учебный проект с обучаешего портала Job4j на темы:
+2.1.0. Maven<br>
+2.1.1. Iterator<br>
+2.1.3. List<br>
+2.1.4. Set<br>
+2.1.5. Map<br>
+2.1.6. Tree<br>
+2.2.1. Ввод-вывод<br>
+2.2.2. Socket<br>
+2.2.3. Логгирование<br>
+2.2.4. Сериализация<br>
+2.2.5. Контрольные вопросы<br>
+2.3.0. Настройка PostgreSQL<br>
+2.3.1. Create Update Insert<br>
+2.3.2. Query<br>
+2.3.3. Outer join<br>
+2.3.5. JDBC<br>
+2.3.6. Проект. Агрегатор Java вакансий<br>
+2.4.1. Понятие сборщик мусора<br>
+2.4.2. Виды сборщиков мусора<br>
+2.4.3. Профилирование приложения<br>
+2.4.4. Типы ссылок и коллекции на soft weak ссылках<br>
+2.4.5. Контрольные вопросы<br>
+2.5.0. TDD<br>
+2.5.1. SRP<br>
+2.5.2. OCP<br>
+2.5.3. LSP<br>
+2.5.4. ISP<br>
+2.5.5. DIP<br>
