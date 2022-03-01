@@ -24,11 +24,4 @@ public class BackwardArrayIt implements Iterator<Integer> {
         }
         return data[point--];
     }
-
-    /**
-     * Скомпонуйте код итератора таким образом, чтобы весь код из этой строки
-     * return data[data.length - 1 - point++];
-     * Был распределен по всему итератору и эта строка приняла такой вид:
-     * return data[point--];
-     */
 }
