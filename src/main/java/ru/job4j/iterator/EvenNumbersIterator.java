@@ -16,11 +16,9 @@ public class EvenNumbersIterator implements Iterator<Integer> {
     public boolean hasNext() {
         boolean rsl = false;
         while (index < data.length) {
-            if (data.length > index) {
                 if (data[index] % 2 == 0) {
                     rsl = true;
                     break;
-                }
             }
             index++;
         }
