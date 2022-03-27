@@ -12,17 +12,14 @@ public class EvenNumbersIterator implements Iterator<Integer> {
         this.data = data;
     }
 
+    @SuppressWarnings("checkstyle:SimplifyBooleanExpression")
     @Override
     public boolean hasNext() {
-        boolean rsl = false;
-        while (index < data.length) {
-                if (data[index] % 2 == 0) {
-                    rsl = true;
-                    break;
-            }
+        while (index < data.length && data[index] % 2 != 0) {
             index++;
+            continue;
         }
-        return rsl;
+        return index < data.length;
     }
 
     @Override
