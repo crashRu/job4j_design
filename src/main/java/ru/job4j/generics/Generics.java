@@ -10,33 +10,30 @@ public class Generics {
         List<? super Predator> first = new ArrayList<>();
         List<Predator> second = new ArrayList<>();
         List<Predator> third = new ArrayList<>();
-        first.add(new Animal());
+        /* first.add(new Animal()); */
         second.add(new Predator());
         third.add(new Tiger());
-
         gen.printObject(first);
         gen.printObject(second);
         gen.printObject(third);
         System.out.println();
-
         gen.printBoundedWildCard(first);
         gen.printBoundedWildCard(second);
         gen.printBoundedWildCard(third);
         System.out.println();
-
         gen.printLowerBoundedWildCard(second);
         gen.printLowerBoundedWildCard(third);
     }
 
-    public void printObject(List<? extends Object> list) {
-        for (Iterator<? extends Object> it = list.iterator(); it.hasNext();) {
+    public void printObject(List<?> list) {
+        for (Iterator<?> it = list.iterator(); it.hasNext();) {
             Object next = it.next();
             System.out.println("Текущий элемент: " + next);
         }
     }
 
     public void printBoundedWildCard(List<? super Predator> list) {
-        for (Iterator<? extends Predator> it = (Iterator<? extends Predator>) list.iterator(); it.hasNext();) {
+        for (Iterator<? super Predator> it =  list.iterator(); it.hasNext();) {
             Object next = it.next();
             System.out.println("Текущий элемент: " + next);
         }
