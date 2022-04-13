@@ -7,23 +7,28 @@ import java.util.List;
 public class Generics {
     public static void main(String[] args) {
         Generics gen = new Generics();
-        List<? super Predator> first = new ArrayList<>();
+        List<Animal> first = new ArrayList<>();
         List<Predator> second = new ArrayList<>();
-        List<Predator> third = new ArrayList<>();
-        /* first.add(new Animal()); */
+        List<Tiger> third = new ArrayList<>();
+        first.add(new Animal());
         second.add(new Predator());
         third.add(new Tiger());
+
         gen.printObject(first);
         gen.printObject(second);
         gen.printObject(third);
         System.out.println();
-        gen.printBoundedWildCard(first);
+
+        /* gen.printBoundedWildCard(first); */
         gen.printBoundedWildCard(second);
         gen.printBoundedWildCard(third);
         System.out.println();
+
+        gen.printLowerBoundedWildCard(first);
         gen.printLowerBoundedWildCard(second);
-        gen.printLowerBoundedWildCard(third);
+        /*gen.printLowerBoundedWildCard(third);*/
     }
+
 
     public void printObject(List<?> list) {
         for (Iterator<?> it = list.iterator(); it.hasNext();) {
@@ -32,15 +37,15 @@ public class Generics {
         }
     }
 
-    public void printBoundedWildCard(List<? super Predator> list) {
-        for (Iterator<? super Predator> it =  list.iterator(); it.hasNext();) {
+    public void printBoundedWildCard(List<? extends Predator> list) {
+        for (Iterator<? extends Predator> it =  list.iterator(); it.hasNext();) {
             Object next = it.next();
             System.out.println("Текущий элемент: " + next);
         }
     }
 
-    public void printLowerBoundedWildCard(List<? extends Predator> list) {
-        for (Iterator<? extends Predator> it = list.iterator(); it.hasNext();) {
+    public void printLowerBoundedWildCard(List<? super Predator> list) {
+        for (Iterator<? super Predator> it = list.iterator(); it.hasNext();) {
             Object next = it.next();
             System.out.println("Текущий элемент: " + next);
         }
