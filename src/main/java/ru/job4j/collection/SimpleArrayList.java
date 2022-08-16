@@ -14,9 +14,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public void add(T value) {
-        if (size >= container.length - 1) {
-            container = Arrays.copyOf(container, container.length * 2);
-        }
+        expandList();
         container[size++] = value;
         modCount++;
 
@@ -25,7 +23,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     @Override
     public T set(int index, T newValue) {
         T tempElement = container[index];
-        container[checkIndex(index)] = newValue;
+        container[Objects.checkIndex(index, size)] = newValue;
         return tempElement;
     }
 
@@ -41,19 +39,18 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public T get(int index) {
-        return container[checkIndex(index)];
-    }
-
-    private int checkIndex(int index) {
-        if (index > size - 1) {
-            throw new IndexOutOfBoundsException();
-        }
-        return index;
+        return container[Objects.checkIndex(index, size)];
     }
 
     @Override
     public int size() {
         return size;
+    }
+
+    private void expandList() {
+        if (size >= container.length - 1) {
+            container = Arrays.copyOf(container, container.length * 2 + 1);
+        }
     }
 
     @Override
@@ -64,14 +61,15 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
             @Override
             public boolean hasNext() {
+                if (tempMod != modCount) {
+                    throw new ConcurrentModificationException();
+                }
                 return index < modCount;
             }
 
             @Override
             public T next() {
-                if (tempMod != modCount) {
-                    throw new ConcurrentModificationException();
-                } else if (!hasNext()) {
+                if (!hasNext()) {
                     throw new NoSuchElementException();
                 } else {
                     return container[index++];
