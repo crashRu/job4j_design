@@ -22,8 +22,9 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public T set(int index, T newValue) {
+        Objects.checkIndex(index, size);
         T tempElement = container[index];
-        container[Objects.checkIndex(index, size)] = newValue;
+        container[index] = newValue;
         return tempElement;
     }
 
@@ -39,7 +40,8 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public T get(int index) {
-        return container[Objects.checkIndex(index, size)];
+        Objects.checkIndex(index, size);
+        return container[index];
     }
 
     @Override
