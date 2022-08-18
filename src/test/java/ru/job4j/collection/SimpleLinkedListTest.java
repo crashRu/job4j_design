@@ -9,10 +9,9 @@ import java.util.Iterator;
 class SimpleLinkedListTest {
 
     private LinkedList<Integer> list;
-
+    int container;
     @BeforeEach
     public void initData() {
-        int container;
         list = new SimpleLinkedList<>(container);
         list.add(1);
         list.add(2);
