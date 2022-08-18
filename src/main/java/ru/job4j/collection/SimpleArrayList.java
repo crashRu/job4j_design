@@ -30,6 +30,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public T remove(int index) {
+        Objects.checkIndex(index, size);
         T tempElement = container[index];
         System.arraycopy(container, index + 1, container, index, size - index - 1);
         container[size - 1] = null;
