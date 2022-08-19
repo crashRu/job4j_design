@@ -22,14 +22,14 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public T set(int index, T newValue) {
-        T tempElement = container[Objects.checkIndex(index, size)];
+        T tempElement = get(index);
         container[index] = newValue;
         return tempElement;
     }
 
     @Override
     public T remove(int index) {
-        T tempElement = container[Objects.checkIndex(index, size)];
+        T tempElement = get(index);
         System.arraycopy(container, index + 1, container, index, size - index - 1);
         container[size - 1] = null;
         size--;
