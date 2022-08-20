@@ -4,15 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 class SimpleLinkedListTest {
 
     private LinkedList<Integer> list;
-    int container;
+
     @BeforeEach
     public void initData() {
-        list = new SimpleLinkedList<>(container);
+        list = new SimpleLinkedList<>(2);
         list.add(1);
         list.add(2);
     }
@@ -55,7 +57,7 @@ class SimpleLinkedListTest {
 
     @Test
     void whenEmptyIterHashNextFalse() {
-        LinkedList<Integer> list = new SimpleLinkedList<>(container);
+        LinkedList<Integer> list = new SimpleLinkedList<>(5);
         Iterator<Integer> it = list.iterator();
         assertThat(it.hasNext()).isFalse();
     }
@@ -88,5 +90,15 @@ class SimpleLinkedListTest {
         assertThat(second.hasNext()).isTrue();
         assertThat(second.next()).isEqualTo(2);
         assertThat(second.hasNext()).isFalse();
+    }
+
+    @Test
+    void whetGetIteratorThenConcurrentModificationException() {
+        Iterator<Integer> iter = list.iterator();
+        assertThat(iter.hasNext()).isTrue();
+        assertThat(iter.next()).isEqualTo(1);
+        list.add(6);
+        assertThatThrownBy(iter::next).isInstanceOf(ConcurrentModificationException.class);
+
     }
 }

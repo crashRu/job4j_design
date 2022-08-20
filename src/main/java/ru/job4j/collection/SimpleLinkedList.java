@@ -1,29 +1,35 @@
 
 package ru.job4j.collection;
 
-import java.util.Arrays;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class SimpleLinkedList<E> implements LinkedList<E> {
     private E[] container;
-    private int modCount = 0;
-    private int size = 0;
+    private int modCount;
+    private int size;
 
     public SimpleLinkedList(int capacity) {
-        expandList();
         this.container = (E[]) new Object[capacity];
+        expandList();
     }
 
     @Override
     public void add(E value) {
+        expandList();
         container[size++] = value;
+        modCount++;
     }
 
     @Override
     public E get(int index) {
-        return null;
+        Objects.checkIndex(index, size);
+        E tempElement = container[0];
+        for (int i = 0; i <= index; i++) {
+            if (i == index) {
+                tempElement = container[i];
+            }
+        }
+        return tempElement;
     }
 
     private void expandList() {
@@ -34,7 +40,7 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
 
         @Override
         public Iterator<E> iterator() {
-            return new Iterator<E>() {
+            return new Iterator<>() {
                 private int index = 0;
                 private int tempMod = modCount;
 
