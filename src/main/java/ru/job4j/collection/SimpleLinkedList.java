@@ -5,6 +5,7 @@ import java.util.*;
 
 public class SimpleLinkedList<E> implements LinkedList<E> {
     private Node<E> head;
+    private int modCount = 0;
 
     @Override
     public void add(E value) {
@@ -17,24 +18,28 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
         while (tail.next != null) {
             tail = tail.next;
         }
+        modCount++;
         tail.next = node;
     }
 
     @Override
     public E get(int index) {
-        Objects.checkIndex(index, size);
-        E tempElement = container[0];
-        for (int i = 0; i <= index; i++) {
-            if (i == index) {
-                tempElement = container[i];
+        SimpleLinkedList.Node<E> tail = head;
+        for (int i = 0; i < index; i++) {
+            if (tail.next != null) {
+                tail = tail.next;
+            } else {
+                throw new IndexOutOfBoundsException();
             }
         }
-        return tempElement;
+
+        return tail.value;
     }
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
             SimpleLinkedList.Node<E> node = head;
+            private int tempMod = modCount;
 
             @Override
             public boolean hasNext() {
@@ -43,7 +48,9 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
 
             @Override
             public E next() {
-                if (!hasNext()) {
+                if (modCount != tempMod) {
+                    throw new ConcurrentModificationException();
+                } else if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 E value = node.value;

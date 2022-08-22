@@ -14,7 +14,7 @@ class SimpleLinkedListTest {
 
     @BeforeEach
     public void initData() {
-        list = new SimpleLinkedList<>(2);
+        list = new SimpleLinkedList<>();
         list.add(1);
         list.add(2);
     }
@@ -57,7 +57,7 @@ class SimpleLinkedListTest {
 
     @Test
     void whenEmptyIterHashNextFalse() {
-        LinkedList<Integer> list = new SimpleLinkedList<>(5);
+        LinkedList<Integer> list = new SimpleLinkedList<>();
         Iterator<Integer> it = list.iterator();
         assertThat(it.hasNext()).isFalse();
     }
