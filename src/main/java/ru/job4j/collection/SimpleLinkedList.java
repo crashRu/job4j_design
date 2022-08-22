@@ -30,11 +30,7 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
         Objects.checkIndex(index, size);
         Node<E> tail = head;
         for (int i = 0; i < index; i++) {
-            if (tail.next != null) {
                 tail = tail.next;
-            } else {
-                throw new IndexOutOfBoundsException();
-            }
         }
 
         return tail.value;
