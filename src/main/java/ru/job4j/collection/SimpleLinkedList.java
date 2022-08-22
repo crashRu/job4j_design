@@ -4,20 +4,20 @@ package ru.job4j.collection;
 import java.util.*;
 
 public class SimpleLinkedList<E> implements LinkedList<E> {
-    private E[] container;
-    private int modCount;
-    private int size;
-
-    public SimpleLinkedList(int capacity) {
-        this.container = (E[]) new Object[capacity];
-        expandList();
-    }
+    private Node<E> head;
 
     @Override
     public void add(E value) {
-        expandList();
-        container[size++] = value;
-        modCount++;
+        Node node = new Node(value, null);
+        if (head == null) {
+            head = node;
+            return;
+        }
+        SimpleLinkedList.Node<E> tail = head;
+        while (tail.next != null) {
+            tail = tail.next;
+        }
+        tail.next = node;
     }
 
     @Override
@@ -31,36 +31,35 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
         }
         return tempElement;
     }
+    @Override
+    public Iterator<E> iterator() {
+        return new Iterator<E>() {
+            SimpleLinkedList.Node<E> node = head;
 
-    private void expandList() {
-        if (size >= container.length - 1) {
-            container = Arrays.copyOf(container, container.length * 2 + 1);
-        }
+            @Override
+            public boolean hasNext() {
+                return node != null;
+            }
+
+            @Override
+            public E next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                E value = node.value;
+                node = node.next;
+                return value;
+            }
+        };
     }
 
-        @Override
-        public Iterator<E> iterator() {
-            return new Iterator<>() {
-                private int index = 0;
-                private int tempMod = modCount;
+    private static class Node<T> {
+        T value;
+        SimpleLinkedList.Node<T> next;
 
-                @Override
-                public boolean hasNext() {
-                    if (tempMod != modCount) {
-                        throw new ConcurrentModificationException();
-                    }
-                    return index < modCount;
-                }
-
-                @Override
-                public E next() {
-                    if (!hasNext()) {
-                        throw new NoSuchElementException();
-                    } else {
-                        return container[index++];
-                    }
-                }
-
-            };
+        public Node(T value, SimpleLinkedList.Node<T> next) {
+            this.value = value;
+            this.next = next;
         }
+    }
     }
