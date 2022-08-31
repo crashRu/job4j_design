@@ -1,14 +1,13 @@
 package ru.job4j.iterator;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
-
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
 
 public class FlatMapTest {
     @Test
