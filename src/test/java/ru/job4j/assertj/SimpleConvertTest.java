@@ -3,6 +3,8 @@ package ru.job4j.assertj;
 import org.assertj.core.data.Index;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SimpleConvertTest {
@@ -20,7 +22,7 @@ class SimpleConvertTest {
     @Test
     void checkToList() {
         SimpleConvert conv = new SimpleConvert();
-        String[] array = conv.toArray("first", "second", "three", "four");
+        List<String> array = conv.toList("first", "second", "three", "four");
         assertThat(array).contains("second")
                 .allMatch(e -> e.length() > 3)
                 .anySatisfy(e -> {
