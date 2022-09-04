@@ -13,7 +13,7 @@ class NameLoadTest {
     }
 
     @Test
-    void checkEmptyName(){
+    void checkEmptyName() {
         NameLoad name = new NameLoad();
         assertThatThrownBy(name::parse)
                 .isInstanceOf(IllegalArgumentException.class)
@@ -23,13 +23,13 @@ class NameLoadTest {
     @Test
     void checkNotEarlyName() {
         NameLoad name = new NameLoad();
-        assertThatThrownBy(()-> name.parse("Кирилл"))
+        assertThatThrownBy(() -> name.parse("Кирилл"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("this name: Кирилл does not contain the symbol \"=\"");
     }
 
     @Test
-    void checkStartLineEarlyByName(){
+    void checkStartLineEarlyByName() {
         NameLoad name = new NameLoad();
         assertThatThrownBy(() -> name.parse("=Кирилл"))
                 .isInstanceOf(IllegalArgumentException.class)
