@@ -53,6 +53,6 @@ class SimpleConvertTest {
         Map<Integer, String> map = Map.of(1, "first", 2, "second",
                                           3, "Three", 4, "four");
         assertThat(map).doesNotContainKey(0)
-                .containsEntry(1, "1");
+                .containsEntry(1, "first");
     }
 }
