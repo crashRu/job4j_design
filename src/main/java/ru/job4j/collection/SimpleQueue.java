@@ -11,18 +11,11 @@ public class SimpleQueue<T> {
     public T poll() {
         isEmpty();
         T temp = null;
-        if (inSize > 0) {
-            inSize--;
-            temp = in.pop();
-        } else {
-            for (int i = 0; i < outSize; i++) {
-                in.push(out.pop());
-                inSize++;
-            }
-            poll();
+        dataTransfer();
+        if (outSize > 0) {
+            outSize--;
+            temp = out.pop();
         }
-
-
         return temp;
     }
 
@@ -37,5 +30,13 @@ public class SimpleQueue<T> {
         }
     }
 
-
+    private void dataTransfer() {
+        if (outSize == 0) {
+            while (inSize > 0) {
+                out.push(in.pop());
+                outSize++;
+                inSize--;
+            }
+        }
+    }
 }
