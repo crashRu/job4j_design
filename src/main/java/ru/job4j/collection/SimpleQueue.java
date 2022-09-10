@@ -12,7 +12,7 @@ public class SimpleQueue<T> {
         isEmpty();
         T temp = null;
         if (outSize == 0) {
-            for (;inSize > 0 ; inSize--) {
+            for (; inSize > 0; inSize--) {
                 out.push(in.pop());
                 outSize++;
             }

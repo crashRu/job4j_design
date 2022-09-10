@@ -1,5 +1,7 @@
 package ru.job4j.assertj;
 
+import java.util.Arrays;
+
 public class Box {
     private static final String UNKNOWN = "Unknown object";
     private int vertex;
@@ -23,7 +25,8 @@ public class Box {
             vertex = -1;
         }
         if (edge <= 0) {
-            vertex = -1; type = UNKNOWN;
+            vertex = -1;
+            type = UNKNOWN;
         }
     }
 
@@ -37,6 +40,15 @@ public class Box {
 
     public boolean isExist() {
         return this.vertex != -1;
+    }
+
+    public void text(int n) {
+        int[] array = new int[n];
+        for (int i = 0; n > 0; n--) {
+            array[i] = n;
+            i++;
+        }
+        Arrays.stream(array).forEach(System.out::println);
     }
 
     public double getArea() {
