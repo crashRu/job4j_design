@@ -11,7 +11,12 @@ public class SimpleQueue<T> {
     public T poll() {
         isEmpty();
         T temp = null;
-        dataTransfer();
+        if (outSize == 0) {
+            for (;inSize > 0 ; inSize--) {
+                out.push(in.pop());
+                outSize++;
+            }
+        }
         if (outSize > 0) {
             outSize--;
             temp = out.pop();
@@ -27,16 +32,6 @@ public class SimpleQueue<T> {
     private void isEmpty() {
         if (inSize == 0 && outSize == 0) {
             throw new NoSuchElementException();
-        }
-    }
-
-    private void dataTransfer() {
-        if (outSize == 0) {
-            while (inSize > 0) {
-                out.push(in.pop());
-                outSize++;
-                inSize--;
-            }
         }
     }
 }
