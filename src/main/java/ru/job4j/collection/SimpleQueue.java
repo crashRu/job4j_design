@@ -10,7 +10,6 @@ public class SimpleQueue<T> {
 
     public T poll() {
         isEmpty();
-        T temp = null;
         if (outSize == 0) {
             for (; inSize > 0; inSize--) {
                 out.push(in.pop());
@@ -19,9 +18,9 @@ public class SimpleQueue<T> {
         }
         if (outSize > 0) {
             outSize--;
-            temp = out.pop();
+            return out.pop();
         }
-        return temp;
+        return null;
     }
 
     public void push(T value) {
