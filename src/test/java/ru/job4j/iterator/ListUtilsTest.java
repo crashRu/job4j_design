@@ -34,7 +34,7 @@ class ListUtilsTest {
     }
 
     @Test
-    void whenRemoveIf(){
+    void whenRemoveIf() {
         input.add(2);
         input.add(4);
         ListUtils.removeIf(input, filter -> filter % 2 != 0);
