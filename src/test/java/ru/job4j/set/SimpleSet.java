@@ -24,7 +24,9 @@ public class SimpleSet<T> implements Set<T> {
         for (T tempValue : set) {
             result = tempValue.equals(null) || tempValue.equals(value);
         }
-        // return Stream.of(set).anyMatch(s -> s.equals(value));
+        /*
+         return Stream.of(set).anyMatch(s -> s.equals(value));
+        */
         return result;
     }
 
