@@ -22,7 +22,6 @@ class SimpleSetTest {
         assertThat(set.contains(null)).isTrue();
         assertThat(set.add(null)).isFalse();
     }
-@Ignore
     @Test
     void whenAddSetElements() {
         Set<Integer> set = new SimpleSet<>();
