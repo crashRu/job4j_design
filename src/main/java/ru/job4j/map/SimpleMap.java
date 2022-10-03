@@ -1,10 +1,12 @@
 package ru.job4j.map;
 
 import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class SimpleMap<K, V> implements Map<K, V> {
+
     private static final float LOAD_FACTOR = 0.75f;
     private int capacity = 8;
     private int count = 0;
@@ -17,16 +19,22 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     }
 
-    private int hash(int hashCode) {
-        return 0;
+    private int hash(Object hashCode) {
+        int h;
+        return (hashCode == null) ? 0 : (h = hashCode.hashCode()) ^ (h >>> 16);
     }
 
     private int indexFor(int hash) {
-        return 0;
+        return hash(hash) & (table.length - 1);
     }
 
     private void expand() {
 
+    }
+
+    private void reSize() {
+        int n = -1 >>> Integer.numberOfLeadingZeros(cap - 1);
+        return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
     }
 
     @Override
@@ -57,7 +65,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return table[index];
+                return table[index++].key;
             }
         }
 
