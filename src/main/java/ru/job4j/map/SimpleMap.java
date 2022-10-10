@@ -1,14 +1,13 @@
 package ru.job4j.map;
 
 import java.util.ConcurrentModificationException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class SimpleMap<K, V> implements Map<K, V> {
 
     private static final float LOAD_FACTOR = 0.75f;
-    private int capacity = 8;
+    private final int capacity = 8;
     private int count = 0;
     private int modCount = 0;
 
@@ -16,12 +15,28 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
-
+        expand();
+        boolean result = true;
+        if (key != null) {
+            for (int i = 0; i < table.length; i++) {
+                if (table[i] != null && table[i].hashCode() == key.hashCode()
+                        && table[i].equals(key)) {
+                    result = false;
+                }
+            }
+            if (result) {
+              int index =  indexFor(key.hashCode());
+                table[index] = new MapEntry(key, value);
+                count++;
+            }
+        }
+        return true;
     }
 
+    @SuppressWarnings("checkstyle:InnerAssignment")
     private int hash(Object hashCode) {
-        int h;
-        return (hashCode == null) ? 0 : (h = hashCode.hashCode()) ^ (h >>> 16);
+        int h = hashCode();
+        return (hashCode == null) ? 0 : (h) ^ (h >>> 16);
     }
 
     private int indexFor(int hash) {
@@ -29,22 +44,37 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     private void expand() {
-
-    }
-
-    private void reSize() {
-        int n = -1 >>> Integer.numberOfLeadingZeros(cap - 1);
-        return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+        if (count / capacity >= LOAD_FACTOR) {
+            MapEntry<K, V>[] tempValue = new MapEntry[table.length * 2];
+            for (int i = 0; i < table.length; i++) {
+                tempValue[i] = table[i];
+            }
+            table = tempValue;
+        }
     }
 
     @Override
     public V get(K key) {
+        for (int i = 0; i < table.length; i++) {
+            if (key != null && table[i] != null && table[i].key.equals(key)) {
+                return (V) table[i];
+            }
+        }
         return null;
     }
 
     @Override
     public boolean remove(K key) {
-        return false;
+        boolean tempValue = false;
+        for (int i = 0; i < table.length; i++) {
+            if (key != null && table[i] != null && table[i].key.equals(key)) {
+                table[i] = null;
+                tempValue = true;
+                count--;
+                break;
+            }
+        }
+        return tempValue;
     }
 
     @Override
@@ -67,10 +97,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 }
                 return table[index++].key;
             }
-        }
-
-
-        return null;
+        };
     }
 
     private static class MapEntry<K, V> {
