@@ -34,11 +34,11 @@ class SimpleMapTest {
     void whenCheckPut() {
         assertThat(map.put(0, "0")).isTrue();
         assertThat(map).hasSize(5);
-        assertThat(map.put(8, "8")).isFalse();
-        assertThat(map).hasSize(5);
+        assertThat(map.put(8, "8")).isTrue();
+        assertThat(map).hasSize(6);
         assertThat(map.put(1, "10")).isFalse();
         assertThat(map.get(1)).isEqualTo("1");
-        assertThat(map).hasSize(5);
+        assertThat(map).hasSize(6);
     }
 
     @Test
