@@ -15,7 +15,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean put(K key, V value) {
         expand();
-        int index = indexFor(hash((key != null) ? key.hashCode() : 0));
+        int index = indexFor(hash((key != null) ? (Integer) key : 0));
         boolean result = false;
         if (table[index] == null) {
             table[index] = new MapEntry<>(key, value);
@@ -37,7 +37,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
     private void expand() {
         if (count / capacity >= LOAD_FACTOR) {
             MapEntry<K, V>[] tempValue = new MapEntry[table.length * 2];
-            System.arraycopy(table, 0, tempValue, 0, table.length);
+            for (int i = 0; i < table.length; i++) {
+                tempValue[i] = table[i];
+            }
             table = tempValue;
         }
     }
@@ -46,7 +48,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public V get(K key) {
         V result = null;
         int index = indexFor(hash((key != null) ? key.hashCode() : 0));
-        if (index <= count && table[index] != null
+        if (index <= count
                 && index != 0 && hash(table[index].key.hashCode()) == hash(key.hashCode())
                 && table[index].key.equals(key)) {
             result = table[index].value;
@@ -57,11 +59,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean tempValue = false;
-        int index = indexFor(hash((key != null) ? key.hashCode() : 0));
+        int index = indexFor(hash((key != null) ? (Integer) key : 0));
         if (get(key) != null) {
             table[index] = null;
             count--;
-            tempValue = true;
         }
         return tempValue;
     }
@@ -70,7 +71,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public Iterator<K> iterator() {
         return new Iterator<K>() {
             private int index = 0;
-            private final int tempModCount = count;
+            private int tempModCount = count;
             private int tempCount = count;
 
             @Override
