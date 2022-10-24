@@ -1,8 +1,11 @@
 package ru.job4j.map;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.*;
+
 import static org.assertj.core.api.Assertions.*;
 
 class SimpleMapTest {
@@ -28,17 +31,6 @@ class SimpleMapTest {
         assertThat(map).hasSize(4);
         assertThat(map.get(5)).isNull();
         assertThat(map).hasSize(4);
-    }
-
-    @Test
-    void whenCheckPut() {
-        assertThat(map.put(0, "0")).isTrue();
-        assertThat(map).hasSize(5);
-        assertThat(map.put(8, "8")).isTrue();
-        assertThat(map).hasSize(6);
-        assertThat(map.put(1, "10")).isFalse();
-        assertThat(map.get(1)).isEqualTo("1");
-        assertThat(map).hasSize(6);
     }
 
     @Test
@@ -87,19 +79,6 @@ class SimpleMapTest {
         Iterator<Integer> it = map.iterator();
         map.get(1);
         assertThat(it.hasNext()).isTrue();
-    }
-
-    @Test
-    void whenMapExpand() {
-        map.put(null, "0000");
-        assertThat(map.put(15, "15")).isTrue();
-        assertThat(map).hasSize(6);
-        assertThat(map.put(8, "8")).isTrue();
-        assertThat(map.put(16, "16")).isFalse();
-        assertThat(map.get(4)).isEqualTo("4");
-        assertThat(map.get(8)).isEqualTo("8");
-        assertThat(map.get(15)).isEqualTo("15");
-        assertThat(map).hasSize(7).contains(null, 1, 2, 3, 4, 8, 15);
     }
 
     @Test
