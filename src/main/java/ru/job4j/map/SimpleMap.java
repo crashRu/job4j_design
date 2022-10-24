@@ -9,29 +9,52 @@ public class SimpleMap<K, V> implements Map<K, V> {
     private static final float LOAD_FACTOR = 0.75f;
     private final int capacity = 8;
     private int count = 0;
+    private int modCount = 0;
 
     private MapEntry<K, V>[] table = new MapEntry[capacity];
 
     @Override
     public boolean put(K key, V value) {
-        expand();
-        int index = indexFor(hash((key != null) ? (Integer) key : 0));
         boolean result = false;
-        if (table[index] == null) {
-            table[index] = new MapEntry<>(key, value);
-            result = true;
+        if ((hash(key) == 0 && !contains(key))) {
+            for (int i = 0; i < count; i++) {
+                if (hash(table[i].key) == 0) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+        if (!result && !contains(key)) {
+            table[count] = new MapEntry(key, value);
             count++;
+            result = true;
+        }
+        expand();
+        return result;
+    }
+
+    public boolean contains(K key) {
+        boolean result = false;
+        if (hash(key) != 0) {
+            for (int i = 0; i < table.length; i++) {
+                if (table[i] != null
+                        && hash(table[i].key) == hash(key)
+                        && table[i].key.equals(key)) {
+                    result = true;
+                    break;
+                }
+            }
         }
         return result;
     }
 
-    private int hash(int hashCode) {
-        return (hashCode == 0) ? 0 : (hashCode) ^ (hashCode >>> 16);
+    private int hash(Object hashCode) {
+        int h = hashCode();
+        return (hashCode == null) ? 0 : (h) ^ (h >>> 16);
     }
 
-
     private int indexFor(int hash) {
-        return hash & (table.length - 1);
+        return hash(hash) & (table.length - 1);
     }
 
     private void expand() {
@@ -47,11 +70,12 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public V get(K key) {
         V result = null;
-        int index = indexFor(hash((key != null) ? key.hashCode() : 0));
-        if (index <= count
-                && index != 0 && hash(table[index].key.hashCode()) == hash(key.hashCode())
-                && table[index].key.equals(key)) {
-            result = table[index].value;
+        for (int i = 0; i < table.length; i++) {
+            if (key != null && table[i] != null) {
+                if (hash(key) == hash(table[i].key) && key.equals(table[i].key)) {
+                    result = table[i].value;
+                }
+            }
         }
         return result;
     }
@@ -59,10 +83,13 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean tempValue = false;
-        int index = indexFor(hash((key != null) ? (Integer) key : 0));
-        if (get(key) != null) {
-            table[index] = null;
-            count--;
+        for (int i = 0; i < table.length; i++) {
+            if (key != null && table[i] != null && table[i].key.equals(key)) {
+                table[i] = null;
+                tempValue = true;
+                count--;
+                break;
+            }
         }
         return tempValue;
     }
@@ -72,24 +99,19 @@ public class SimpleMap<K, V> implements Map<K, V> {
         return new Iterator<K>() {
             private int index = 0;
             private int tempModCount = count;
-            private int tempCount = count;
 
             @Override
             public boolean hasNext() {
                 if (count != tempModCount) {
                     throw new ConcurrentModificationException();
                 }
-                return index < tempCount;
+                return index < count;
             }
 
             @Override
             public K next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
-                }
-                while (table[index] == null && hasNext()) {
-                    index++;
-                    tempCount++;
                 }
                 return table[index++].key;
             }
