@@ -3,12 +3,13 @@ package ru.job4j.map;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SimpleMap<K, V> implements Map<K, V> {
 
     private static final float LOAD_FACTOR = 0.75f;
     private int capacity = 8;
-    private int count = 0;
+    private int modCount = 0;
 
     private MapEntry<K, V>[] table = new MapEntry[capacity];
 
@@ -20,7 +21,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
         if (table[index] == null) {
             table[index] = new MapEntry<>(key, value);
             result = true;
-            count++;
+            modCount++;
         }
         return result;
     }
@@ -31,14 +32,17 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
 
     private int indexFor(int hash) {
-        return hash & (capacity);
+        return hash & (capacity - 1);
     }
 
     private void expand() {
-        if ((float)count / ((float)capacity * 2) >= LOAD_FACTOR) {
-            MapEntry<K, V>[] tempValue = new MapEntry[table.length * 2];
+        if ((float) modCount / (capacity) >= LOAD_FACTOR) {
+            capacity *= 2;
+            MapEntry<K, V>[] tempValue = new MapEntry[capacity];
             for (int i = 0; i < table.length; i++) {
-                tempValue[indexFor(table[i].key.hashCode())] = table[i];
+                if (table[i] != null) {
+                    tempValue[indexFor(Objects.hashCode(table[i].key))] = table[i];
+                }
             }
             table = tempValue;
         }
@@ -47,12 +51,11 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public V get(K key) {
         V result = null;
-        int index = indexFor(hash((key != null) ? key.hashCode() : 0));
+        int index = indexFor(hash(Objects.hashCode(key)));
         if (table[index] != null) {
-            Object tempTableKey = table[index].key == null ? 0 : table[index].key;
-            Object tempKey = key == null ? 0 : key;
-            if (table[index] != null && hash(tempTableKey.hashCode()) == hash(tempKey.hashCode())
-                    && (tempTableKey).equals(tempKey)) {
+            if (table[index] != null && hash(Objects.hashCode(table[index].key))
+                    == hash(Objects.hashCode(key))
+                    && Objects.equals(table[index].key, key)) {
                 result = table[index].value;
             }
         }
@@ -62,10 +65,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean tempValue = false;
-        int index = indexFor(hash((key != null) ? key.hashCode() : 0));
+        int index = indexFor(hash((Objects.hashCode(key))));
         if (get(key) != null) {
             table[index] = null;
-            count--;
+            modCount--;
             tempValue = true;
         }
         return tempValue;
@@ -74,19 +77,18 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public Iterator<K> iterator() {
         return new Iterator<K>() {
+            private final int tempModCount = modCount;
             private int index = 0;
-            private int tempModCount = count;
-            private int tempCount = count;
 
             @Override
             public boolean hasNext() {
-                if (count != tempModCount) {
+                if (modCount != tempModCount) {
                     throw new ConcurrentModificationException();
                 }
                 while (index < capacity && table[index] == null) {
                     index++;
                 }
-                return index < tempCount;
+                return index < table.length;
             }
 
             @Override
