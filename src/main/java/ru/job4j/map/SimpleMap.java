@@ -40,6 +40,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
             capacity *= 2;
             MapEntry<K, V>[] tempValue = new MapEntry[capacity];
             for (int i = 0; i < table.length; i++) {
+                if (table[i] != null) {
+                    tempValue[basket(table[i].key)] = table[i];
+                }
             }
             table = tempValue;
         }
