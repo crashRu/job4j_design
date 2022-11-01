@@ -16,7 +16,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean put(K key, V value) {
         expand();
-        int index = indexFor(hash((key != null) ? key.hashCode() : 0));
+        int index = basket(key);
         boolean result = false;
         if (table[index] == null) {
             table[index] = new MapEntry<>(key, value);
@@ -40,9 +40,6 @@ public class SimpleMap<K, V> implements Map<K, V> {
             capacity *= 2;
             MapEntry<K, V>[] tempValue = new MapEntry[capacity];
             for (int i = 0; i < table.length; i++) {
-                if (table[i] != null) {
-                    tempValue[indexFor(Objects.hashCode(table[i].key))] = table[i];
-                }
             }
             table = tempValue;
         }
@@ -51,7 +48,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public V get(K key) {
         V result = null;
-        int index = indexFor(hash(Objects.hashCode(key)));
+        int index = basket(key);
         if (table[index] != null) {
             if (table[index] != null && hash(Objects.hashCode(table[index].key))
                     == hash(Objects.hashCode(key))
@@ -65,13 +62,17 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean tempValue = false;
-        int index = indexFor(hash((Objects.hashCode(key))));
+        int index = basket(key);
         if (get(key) != null) {
             table[index] = null;
             modCount--;
             tempValue = true;
         }
         return tempValue;
+    }
+
+    private int basket(K key) {
+        return indexFor(hash(Objects.hashCode(key)));
     }
 
     @Override
