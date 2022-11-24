@@ -14,6 +14,8 @@ public class Info {
         this.deleted = deleted;
     }
 
+
+
     public int getAdded() {
         return added;
     }
