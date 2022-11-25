@@ -12,10 +12,10 @@ public class Analize {
                 .collect(Collectors.toMap(User::getId, User::getName));
         Map<Integer, String> prevMap = previous.stream()
                 .collect(Collectors.toMap(User::getId, User::getName));
-        return new Info(elementCount(x -> !prevMap.containsKey(x.getId()), current),
-                elementCount(x -> currMap.containsKey(x.getId())
-                        && !(x.getName().equals(currMap.get(x.getId()))), previous),
-                elementCount(x -> !currMap.containsKey(x.getId()), previous));
+        return new Info(elementCount(currUser -> !prevMap.containsKey(currUser.getId()), current),
+                elementCount(prevUser -> currMap.containsKey(prevUser.getId())
+                        && !(prevUser.getName().equals(currMap.get(prevUser.getId()))), previous),
+                elementCount(prevUser -> !currMap.containsKey(prevUser.getId()), previous));
     }
 
     public static int elementCount(Predicate<? super User> pred, Set<User> set) {
