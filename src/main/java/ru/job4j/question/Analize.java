@@ -1,30 +1,40 @@
 package ru.job4j.question;
 
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Analize {
 
     public static Info diff(Set<User> previous, Set<User> current) {
-        int addUserInfo = 0;
-        int removeUserInfo = 0;
-        int changeUserInfo;
+        int addUserCount = 0;
+        int changeUserCount = 0;
+        int removeUserCount = 0;
 
-        changeUserInfo = previous.stream()
-                .collect(Collectors.toMap(prev -> prev.getId(), prev -> prev.getName()))
-                .containsKey(current.contains())
+        Map<Integer, String> currMap = current.stream()
+                .collect(Collectors.toMap(User::getId, User::getName));
+
+        Map<Integer, String> prevMap = previous.stream()
+                .collect(Collectors.toMap(User::getId, User::getName));
+
+        for (User prev : previous) {
+            if (currMap.containsKey(prev.getId())
+                    && !prev.getName().equals(currMap.get(prev.getId()))) {
+                changeUserCount++;
+            }
+        }
 
         for (User user : current) {
-            if (!previous.contains(user)) {
-                addUserInfo++;
+            if (!prevMap.containsKey(user.getId())) {
+                addUserCount++;
             }
         }
+
         for (User user : previous) {
-            if (!current.contains(user)) {
-                removeUserInfo++;
+            if (!currMap.containsKey(user.getId())) {
+                removeUserCount++;
             }
         }
-        return new Info(addUserInfo,0,removeUserInfo);
+        return new Info(addUserCount, changeUserCount, removeUserCount);
     }
 }
