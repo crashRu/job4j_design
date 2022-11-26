@@ -1,4 +1,4 @@
-package ru.job4j.output;
+package ru.job4j.io;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
