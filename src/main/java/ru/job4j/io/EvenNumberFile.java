@@ -1,10 +1,8 @@
 package ru.job4j.io;
 
-import javax.sound.midi.Patch;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +10,8 @@ import java.util.stream.Collectors;
 
 public class EvenNumberFile {
     public static void main(String[] args) {
-       parseByte(readFile("even.txt")).forEach(System.out::println);
+        parseByte(readFile("even.txt"))
+                .forEach(number -> System.out.println(number + " " + (number % 2 == 0)));
     }
 
     public static byte[] readFile(String patch) {
@@ -33,14 +32,13 @@ public class EvenNumberFile {
         for (int index = 0; index < bytesList.length; index++) {
             result = result + (char) bytesList[index];
         }
-        String[] a = result.split("\n");
-        ArrayList list = new ArrayList();
-        for (String b : a) {
-            System.out.println(a.toString());
-          list.add(Integer.parseInt(b));
-            System.out.println(b);
+        try {
+            return Arrays.stream(result.split("\n"))
+                    .map(line -> Integer.parseInt(line))
+                    .collect(Collectors.toList());
+        } catch (NumberFormatException exception) {
+            exception.printStackTrace();
+            return new ArrayList<>();
         }
-
-        return new ArrayList<>();
     }
 }
