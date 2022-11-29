@@ -9,7 +9,7 @@ public class LogFilter {
     public List<String> filter(String file) {
         List<String> list = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
-            in.lines().forEach(x -> list.add(x));
+            in.lines().filter(line -> line.matches(".+404\\s\\d{2,4}")).forEach(x -> list.add(x));
         } catch (Exception e) {
             e.printStackTrace();
         }
