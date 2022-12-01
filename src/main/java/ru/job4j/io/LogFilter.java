@@ -17,7 +17,7 @@ public class LogFilter {
 
     public static void save(List<String> log, String filePatch) {
         try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(filePatch)))) {
-            out.println(log);
+            log.forEach(out::println);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
