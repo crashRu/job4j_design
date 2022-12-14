@@ -8,7 +8,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Config {
-
     private final String path;
     private Map<String, String> values = new HashMap<String, String>();
 
@@ -18,7 +17,17 @@ public class Config {
 
     public void load() {
         try (BufferedReader in = new BufferedReader(new FileReader(this.path))) {
-           values = in.lines()
+            values = in.lines()
+                    .map(line -> {
+                        String[] s = line.split("=");
+                        if (!line.startsWith("#") && !line.isEmpty()
+                                && (line.indexOf("=") == 0 || s.length < 2
+                                        || s[0].length() == 0 || s[1].length() == 0)) {
+                            throw new IllegalArgumentException();
+                        }
+                        return line;
+                    })
+                    .filter(line -> line.indexOf('=') > 0)
                     .map(line -> line.split("="))
                     .collect(Collectors.toMap(
                             list -> list[0],
@@ -28,10 +37,6 @@ public class Config {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        System.out.println(values.size());
-        for (String s : values.keySet()) {
-            System.out.println("Key: " + s + " Value: " + values.get(s));
         }
     }
 
@@ -49,9 +54,4 @@ public class Config {
         }
         return out.toString();
     }
-
-    public static void main(String[] args) {
-        new Config("app.properties").load();
-    }
-
 }
