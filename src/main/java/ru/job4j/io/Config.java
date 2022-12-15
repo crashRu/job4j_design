@@ -18,26 +18,33 @@ public class Config {
     public void load() {
         try (BufferedReader in = new BufferedReader(new FileReader(this.path))) {
             values = in.lines()
-                    .map(line -> {
-                        String[] s = line.split("=");
-                        if (!line.startsWith("#") && !line.isEmpty()
-                                && (line.indexOf("=") == 0 || s.length < 2
-                                        || s[0].length() == 0 || s[1].length() == 0)) {
-                            throw new IllegalArgumentException();
-                        }
-                        return line;
-                    })
-                    .filter(line -> line.indexOf('=') > 0)
-                    .map(line -> line.split("="))
+                    .map(String::trim)
+                    .filter(this::lineValidate)
                     .collect(Collectors.toMap(
-                            list -> list[0],
-                            list -> list[1],
+                            line -> line.substring(0, line.indexOf("=")),
+                            line -> line.substring(line.indexOf("=") + 1, line.length()),
                             (key, value) -> value, HashMap::new));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        for (String key : values.keySet()) {
+            System.out.println(key + " --- " + values.get(key));
+        }
+    }
+
+    public boolean lineValidate(String line) {
+        boolean rsl = false;
+        if (!line.isEmpty() && !line.startsWith("#")) {
+            if (line.startsWith("=") || line.endsWith("=") || !line.contains("=")) {
+                throw new IllegalArgumentException();
+            } else if (line.substring(0, line.indexOf('=')).length() != 0
+                    && line.substring(line.indexOf('='), line.length() - 1).length() != 0) {
+                rsl = true;
+            }
+        }
+        return rsl;
     }
 
     public String value(String key) {
@@ -53,5 +60,9 @@ public class Config {
             e.printStackTrace();
         }
         return out.toString();
+    }
+
+    public static void main(String[] args) {
+        new Config("./emptyLine.properties").load();
     }
 }
