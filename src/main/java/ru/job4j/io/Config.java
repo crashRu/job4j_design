@@ -29,9 +29,6 @@ public class Config {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (String key : values.keySet()) {
-            System.out.println(key + " --- " + values.get(key));
-        }
     }
 
     public boolean lineValidate(String line) {
