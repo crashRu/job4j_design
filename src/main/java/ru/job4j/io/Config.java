@@ -32,12 +32,13 @@ public class Config {
     }
 
     public boolean lineValidate(String line) {
+        int tempIndex = line.indexOf("=");
         boolean rsl = false;
         if (!line.isEmpty() && !line.startsWith("#")) {
-            if (line.startsWith("=") || line.endsWith("=") || !line.contains("=")) {
-                throw new IllegalArgumentException();
-            } else if (line.substring(0, line.indexOf('=')).length() != 0
-                    && line.substring(line.indexOf('='), line.length() - 1).length() != 0) {
+            if (line.startsWith("=") || tempIndex == line.length() - 1 || !line.contains("=")) {
+                throw new IllegalArgumentException(String.format("The line created an exceptional event, line: %s", line));
+            } else if (line.substring(0, tempIndex).length() != 0
+                    && line.substring(tempIndex, line.length() - 1).length() != 0) {
                 rsl = true;
             }
         }
@@ -57,9 +58,5 @@ public class Config {
             e.printStackTrace();
         }
         return out.toString();
-    }
-
-    public static void main(String[] args) {
-        new Config("./emptyLine.properties").load();
     }
 }
