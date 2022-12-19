@@ -58,12 +58,4 @@ class DataStore {
         this.code = Integer.parseInt(code);
         this.data = data;
     }
-
-    @Override
-    public String toString() {
-        return "DataStore{" +
-                "code=" + code +
-                ", data='" + data + '\'' +
-                '}';
-    }
 }
