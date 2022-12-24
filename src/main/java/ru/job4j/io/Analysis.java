@@ -6,27 +6,29 @@ import java.util.stream.Collectors;
 public class Analysis {
 
     public static void unavailable(String source, String target) {
-        StringBuilder builder = new StringBuilder();
-
         try (BufferedReader reader = new BufferedReader(new FileReader(source))) {
-            reader.lines()
-                    .filter(line -> !line.isEmpty())
-                    .map(line -> {
-                        int subStringIndex = Integer.parseInt(line.substring(0, line.indexOf("\s")));
-                        String subStringDate = line.substring(line.indexOf("\s"));
-                        if (builder.length() % 2 != 0 && subStringIndex >= 400) {
-                            builder.append(subStringDate + ";");
-                        } else if (builder.length() % 2 == 0 && subStringIndex < 400) {
-                            builder.append(subStringDate + ";");
-                        }
-                        return builder;
-                    })
-                    .collect(Collectors.toList());
-
+            PrintWriter write = new PrintWriter(new FileOutputStream(target));
+            boolean serverOn = true;
+            while (reader.ready()) {
+                String line = reader.readLine();
+                if (line.isEmpty()) {
+                    continue;
+                }
+                String writeLine = line.replaceAll("\\d{3}\\s", "") + ";";
+                int codeIndex = Integer.parseInt(line.substring(0, line.indexOf("\s")));
+                if (serverOn && codeIndex >= 400) {
+                    serverOn = false;
+                    write.print(writeLine);
+                } else if (!serverOn && codeIndex < 400) {
+                    serverOn = true;
+                    write.println(writeLine);
+                }
+            }
+            write.flush();
+            write.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(builder);
     }
 
     public static void main(String[] args) {
