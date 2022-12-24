@@ -18,9 +18,9 @@ public class Analysis {
                 int codeIndex = Integer.parseInt(line.substring(0, line.indexOf("\s")));
 
 
-                if (serverOn && codeIndex >= 400 || !serverOn && codeIndex < 400 ) {
+                if (serverOn && codeIndex >= 400 || !serverOn && codeIndex < 400) {
                     serverOn = !(codeIndex >= 400);
-                    writer.print(writeLine + (serverOn ? System.lineSeparator() :""));
+                    writer.print(writeLine + (serverOn ? System.lineSeparator() : ""));
                 }
             }
         } catch (IOException e) {
