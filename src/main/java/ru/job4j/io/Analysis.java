@@ -16,12 +16,11 @@ public class Analysis {
                 }
                 String writeLine = line.replaceAll("\\d{3}\\s", "") + ";";
                 int codeIndex = Integer.parseInt(line.substring(0, line.indexOf("\s")));
-                if (serverOn && codeIndex >= 400) {
-                    serverOn = false;
-                    writer.print(writeLine);
-                } else if (!serverOn && codeIndex < 400) {
-                    serverOn = true;
-                    writer.println(writeLine);
+
+
+                if (serverOn && codeIndex >= 400 || !serverOn && codeIndex < 400 ) {
+                    serverOn = !(codeIndex >= 400);
+                    writer.print(writeLine + (serverOn ? System.lineSeparator() :""));
                 }
             }
         } catch (IOException e) {
