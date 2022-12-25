@@ -14,13 +14,11 @@ public class Analysis {
                 if (line.isEmpty()) {
                     continue;
                 }
-                String writeLine = line.replaceAll("\\d{3}\\s", "") + ";";
-                int codeIndex = Integer.parseInt(line.substring(0, line.indexOf("\s")));
-
-
-                if (serverOn && codeIndex >= 400 || !serverOn && codeIndex < 400) {
-                    serverOn = !(codeIndex >= 400);
-                    writer.print(writeLine + (serverOn ? System.lineSeparator() : ""));
+                String writeLine = line.substring(line.indexOf("\s") + 1);
+                boolean status = 400 <= Integer.parseInt(line.substring(0, line.indexOf("\s")));
+                if (serverOn == status) {
+                    serverOn = !serverOn;
+                    writer.append(writeLine).append(';').append(serverOn ? System.lineSeparator() : "");
                 }
             }
         } catch (IOException e) {
