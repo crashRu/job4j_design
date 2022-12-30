@@ -31,8 +31,8 @@ public class SearchFiles implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        if (condition.test(file.getFileName())) {
-            pathList.add(file.getFileName());
+        if (condition.test(file)) {
+            pathList.add(file);
         }
         return CONTINUE;
     }
