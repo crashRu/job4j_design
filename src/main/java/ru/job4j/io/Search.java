@@ -1,7 +1,5 @@
 package ru.job4j.io;
 
-import com.sun.tools.javac.Main;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,7 +9,7 @@ import java.util.function.Predicate;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        сheckLaunchOptions(args);
+        checkLaunchOptions(args);
         Path start = Paths.get(args[0]);
         search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
     }
@@ -22,7 +20,7 @@ public class Search {
         return searcher.getPaths();
     }
 
-    public static void сheckLaunchOptions(String[] args) {
+    public static void checkLaunchOptions(String[] args) {
         if (args.length == 0) {
             throw new IllegalArgumentException("Root folder is null. Usage  ROOT_FOLDER.");
         } else if (args.length == 1) {
