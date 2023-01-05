@@ -26,11 +26,11 @@ public class Search {
         if (args.length != 2) {
             throw new IllegalArgumentException("Not all parameters entered");
         }
-
-        if (args[0].isEmpty() || !Files.exists(Path.of(args[0]))) {
+        Matcher match = Pattern.compile("\\.(\\w|\\d)+").matcher(args[1]);
+        if (!Files.isDirectory(Path.of(args[0]))) {
             throw new IllegalArgumentException("Path entered incorrectly");
         }
-        if (args[1].isEmpty()) {
+        if (!match.find()) {
             throw new IllegalArgumentException("File extension is not correct");
         }
     }
