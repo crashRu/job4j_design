@@ -23,16 +23,12 @@ public class Search {
     }
 
     public static void checkLaunchOptions(String[] args) {
-        Matcher matchesPath = Pattern.compile("^[A-Z]\\:\\\\").matcher(args[0]);
-        Matcher matchesFile = Pattern.compile("[A-Za-z]{1,4}$").matcher(args[1]);
         if (args.length != 2) {
             throw new IllegalArgumentException("Not all parameters entered");
         }
-        if (!matchesPath.find()) {
+
+        if (args[0].isEmpty() && Files.exists(Path.of(args[0]))) {
             throw new IllegalArgumentException("Path entered incorrectly");
-        }
-        if (!matchesFile.matches()) {
-            throw new IllegalArgumentException("File extension is not correct");
         }
     }
 }
