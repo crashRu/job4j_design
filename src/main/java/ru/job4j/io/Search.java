@@ -27,8 +27,11 @@ public class Search {
             throw new IllegalArgumentException("Not all parameters entered");
         }
 
-        if (args[0].isEmpty() && Files.exists(Path.of(args[0]))) {
+        if (args[0].isEmpty() || !Files.exists(Path.of(args[0]))) {
             throw new IllegalArgumentException("Path entered incorrectly");
+        }
+        if (args[1].isEmpty()) {
+            throw new IllegalArgumentException("File extension is not correct");
         }
     }
 }
