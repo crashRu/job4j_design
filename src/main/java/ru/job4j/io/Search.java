@@ -6,6 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Search {
     public static void main(String[] args) throws IOException {
@@ -21,10 +23,16 @@ public class Search {
     }
 
     public static void checkLaunchOptions(String[] args) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException("Root folder is null. Usage  ROOT_FOLDER.");
-        } else if (args.length == 1) {
-            throw new IllegalArgumentException("You did not enter a file format, please enter a file format");
+        Matcher matchesPath = Pattern.compile("^[A-Z]\\:\\\\").matcher(args[0]);
+        Matcher matchesFile = Pattern.compile("[A-Za-z]{1,4}$").matcher(args[1]);
+        if (args.length != 2) {
+            throw new IllegalArgumentException("Not all parameters entered");
+        }
+        if (!matchesPath.find()) {
+            throw new IllegalArgumentException("Path entered incorrectly");
+        }
+        if (!matchesFile.matches()) {
+            throw new IllegalArgumentException("File extension is not correct");
         }
     }
 }
