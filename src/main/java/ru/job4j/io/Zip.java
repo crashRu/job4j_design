@@ -25,22 +25,10 @@ public class Zip {
         }
     }
 
-    public void packSingleFile(File source, File target) {
-        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-            zip.putNextEntry(new ZipEntry(source.getPath()));
-            try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
-                zip.write(out.readAllBytes());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     public List<Path> pathList(String[] args) throws IOException {
-        ArgsName.of(args);
         ArgsName arguments = ArgsName.of(args);
-        Path directory = Path.of(arguments.get("d"));
         this.pathZip = Path.of(arguments.get("o"));
-        return Search.search(directory, p -> !p.toString().endsWith(arguments.get("e")));
+        return Search.search(Path.of(arguments.get("d")), p -> !p.toString().endsWith(arguments.get("e")));
     }
 
     public static void main(String[] args) throws IOException {
