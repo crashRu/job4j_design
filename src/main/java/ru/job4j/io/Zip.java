@@ -31,11 +31,28 @@ public class Zip {
         return Search.search(Path.of(arguments.get("d")), p -> !p.toString().endsWith(arguments.get("e")));
     }
 
+    private static void valid(String[] args) {
+        ArgsName arguments = ArgsName.of(args);
+        File directory = Path.of(arguments.get("d")).toFile();
+        if (!directory.exists()) {
+            throw new IllegalArgumentException(String.format("%s - not exist", args[0]));
+        }
+        if (!directory.isDirectory()) {
+            throw new IllegalArgumentException(String.format("%s - not directory", args[0]));
+        }
+        if (!arguments.get("e").startsWith(".") || args[1].length() < 2) {
+            throw new IllegalArgumentException("This search argument is not extension.");
+        }
+        if (!arguments.get("o").endsWith(".zip")) {
+            throw new IllegalArgumentException("Argument must be in .zip format");
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         if (args.length != 3) {
             throw new IllegalArgumentException("Not enough arguments");
         }
-        ArgsName.of(args);
+        valid(args);
         Zip zip = new Zip();
         zip.packFiles(zip.pathList(args), zip.pathZip.toFile());
     }
