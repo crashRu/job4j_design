@@ -25,14 +25,12 @@ public class Zip {
         }
     }
 
-    public List<Path> pathList(String[] args) throws IOException {
-        ArgsName arguments = ArgsName.of(args);
+    public List<Path> pathList(ArgsName arguments) throws IOException {
         this.pathZip = Path.of(arguments.get("o"));
         return Search.search(Path.of(arguments.get("d")), p -> !p.toString().endsWith(arguments.get("e")));
     }
 
-    private static void valid(String[] args) {
-        ArgsName arguments = ArgsName.of(args);
+    private static void valid(String[] args, ArgsName arguments) {
         File directory = Path.of(arguments.get("d")).toFile();
         if (!directory.exists()) {
             throw new IllegalArgumentException(String.format("%s - not exist", args[0]));
@@ -52,8 +50,9 @@ public class Zip {
         if (args.length != 3) {
             throw new IllegalArgumentException("Not enough arguments");
         }
-        valid(args);
+        ArgsName arguments = ArgsName.of(args);
+        valid(args, arguments);
         Zip zip = new Zip();
-        zip.packFiles(zip.pathList(args), zip.pathZip.toFile());
+        zip.packFiles(zip.pathList(arguments), zip.pathZip.toFile());
     }
 }
