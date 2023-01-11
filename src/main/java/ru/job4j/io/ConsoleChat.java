@@ -1,7 +1,6 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,8 +8,8 @@ public class ConsoleChat {
     private static final String OUT = "закончить";
     private static final String STOP = "стоп";
     private static final String CONTINUE = "продолжить";
-    List<String> list = new ArrayList<>();
-    private static final StringBuilder builder = new StringBuilder();
+    private static final StringBuilder CHAT_LOG = new StringBuilder();
+    private List<String> list;
     private final String path;
     private final String botAnswers;
 
@@ -28,20 +27,20 @@ public class ConsoleChat {
             System.out.printf("\tИнструкция по использованию чата\nЧто бы закончить общение напишите \"Закончить\"\n"
                     + "Что бы приостановить общение напишите \"Стоп\"\nЧто бы продолжить общение \"Продолжить\"\n");
             while (!(userAnswer = readUser.readLine()).equals(OUT)) {
-                builder.append(userAnswer + System.lineSeparator());
+                CHAT_LOG.append(userAnswer + System.lineSeparator());
                 String botAnswer = getBotAnswers();
                 if (userAnswer.equals(STOP)) {
                     System.out.println(botStop);
-                    builder.append(botStop);
+                    CHAT_LOG.append(botStop);
                 } else if (userAnswer.equals(CONTINUE)) {
                     System.out.println(botContinue);
-                    builder.append(botContinue + System.lineSeparator());
+                    CHAT_LOG.append(botContinue + System.lineSeparator());
                 } else {
                     System.out.println("Бот : " + botAnswer);
-                    builder.append("Бот : " + botAnswer + System.lineSeparator());
+                    CHAT_LOG.append("Бот : " + botAnswer + System.lineSeparator());
                 }
             }
-            saveLog(builder);
+            saveLog(CHAT_LOG);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
