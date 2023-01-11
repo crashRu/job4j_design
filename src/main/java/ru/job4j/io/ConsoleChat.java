@@ -1,4 +1,5 @@
 package ru.job4j.io;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ public class ConsoleChat {
     private static final String OUT = "закончить";
     private static final String STOP = "стоп";
     private static final String CONTINUE = "продолжить";
+    List<String> list = new ArrayList<>();
     private static final StringBuilder builder = new StringBuilder();
     private final String path;
     private final String botAnswers;
@@ -15,28 +17,41 @@ public class ConsoleChat {
     public ConsoleChat(String path, String botAnswers) {
         this.path = path;
         this.botAnswers = botAnswers;
+        list = readPhrases();
     }
 
     public void run() {
         try (BufferedReader readUser = new BufferedReader(new InputStreamReader(System.in))) {
-            String answer;
-            while (!(answer = readUser.readLine()).isEmpty()) {
-                if (answer.equals(OUT)) {
-                    readPhrases();
-                    break;
-                } else if (answer.equals(STOP)) {
+            String botStop = "Бот : Я буду вас ждать, как вернетесь введите команду \"Продолжить\"";
+            String botContinue = "Бот : Жду вашего вопроса";
+            String userAnswer;
+            System.out.printf("\tИнструкция по использованию чата\nЧто бы закончить общение напишите \"Закончить\"\n"
+                    + "Что бы приостановить общение напишите \"Стоп\"\nЧто бы продолжить общение \"Продолжить\"\n");
+            while (!(userAnswer = readUser.readLine()).equals(OUT)) {
+                builder.append(userAnswer + System.lineSeparator());
+                String botAnswer = getBotAnswers();
+                if (userAnswer.equals(STOP)) {
+                    System.out.println(botStop);
+                    builder.append(botStop);
+                } else if (userAnswer.equals(CONTINUE)) {
+                    System.out.println(botContinue);
+                    builder.append(botContinue + System.lineSeparator());
                 } else {
-                    builder.append(answer);
+                    System.out.println("Бот : " + botAnswer);
+                    builder.append("Бот : " + botAnswer + System.lineSeparator());
                 }
-                answer = readUser.readLine();
             }
+            saveLog(builder);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    private String getBotAnswers() {
+        return list.get((int) (Math.random() * list.size()));
+    }
+
     private List<String> readPhrases() {
-        List<String> list = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(botAnswers))) {
             list = reader.lines().collect(Collectors.toList());
         } catch (IOException exception) {
@@ -45,16 +60,17 @@ public class ConsoleChat {
         return list;
     }
 
-    private void saveLog(List<String> log) {
+    private void saveLog(StringBuilder logBuilder) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
-            writer.write(writer.toString());
+            writer.write(logBuilder.toString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static void main(String[] args) {
-        ConsoleChat cc = new ConsoleChat("", "");
+        ConsoleChat cc = new ConsoleChat("D:\\job4j\\job4j_design\\src\\data\\log.txt",
+                "D:\\job4j\\job4j_design\\src\\data\\botAnswers.txt");
         cc.run();
     }
 }

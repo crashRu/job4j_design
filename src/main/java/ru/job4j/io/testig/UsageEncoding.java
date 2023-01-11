@@ -22,7 +22,7 @@ public class UsageEncoding {
     }
 
     public static void main(String[] args) {
-        String path = "./src/data/text.txt";
+        String path = "./src/data/botAnswers.txt";
         UsageEncoding encoding = new UsageEncoding();
         String s = encoding.readFile(path);
         System.out.println("Данные из файла: ");
