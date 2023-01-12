@@ -2,6 +2,7 @@ package ru.job4j.io;
 
 import java.io.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ConsoleChat {
@@ -12,6 +13,7 @@ public class ConsoleChat {
     private List<String> list;
     private final String path;
     private final String botAnswers;
+    private String userAnswer;
 
     public ConsoleChat(String path, String botAnswers) {
         this.path = path;
@@ -26,12 +28,12 @@ public class ConsoleChat {
 
             System.out.printf("\tИнструкция по использованию чата\nЧто бы закончить общение напишите \"Закончить\"\n"
                     + "Что бы приостановить общение напишите \"Стоп\"\nЧто бы продолжить общение \"Продолжить\"\n");
-            for (String userAnswer = readUser.readLine(); !(userAnswer).equals(OUT);) {
+            while (isOutUser(readUser.readLine())) {
                 CHAT_LOG.append(userAnswer + System.lineSeparator());
                 String botAnswer = getBotAnswers();
                 if (userAnswer.equals(STOP)) {
                     System.out.println(botStop);
-                    CHAT_LOG.append(botStop);
+                    CHAT_LOG.append(botStop + System.lineSeparator());
                 } else if (userAnswer.equals(CONTINUE)) {
                     System.out.println(botContinue);
                     CHAT_LOG.append(botContinue + System.lineSeparator());
@@ -44,6 +46,14 @@ public class ConsoleChat {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean isOutUser(String userAnswer) {
+        if (Objects.isNull(userAnswer)) {
+            throw new IllegalArgumentException("Answer is null");
+        }
+        this.userAnswer = userAnswer;
+        return !userAnswer.equals(OUT);
     }
 
     private String getBotAnswers() {
@@ -68,8 +78,8 @@ public class ConsoleChat {
     }
 
     public static void main(String[] args) {
-        ConsoleChat cc = new ConsoleChat("D:\\job4j\\job4j_design\\src\\data\\log.txt",
-                "D:\\job4j\\job4j_design\\src\\data\\botAnswers.txt");
+        ConsoleChat cc = new ConsoleChat("/Users/crash/job4j_design/src/data/log.txt",
+                "/Users/crash/job4j_design/src/data/botAnswers.txt");
         cc.run();
     }
 }
