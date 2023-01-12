@@ -23,10 +23,10 @@ public class ConsoleChat {
         try (BufferedReader readUser = new BufferedReader(new InputStreamReader(System.in))) {
             String botStop = "Бот : Я буду вас ждать, как вернетесь введите команду \"Продолжить\"";
             String botContinue = "Бот : Жду вашего вопроса";
-            String userAnswer;
+
             System.out.printf("\tИнструкция по использованию чата\nЧто бы закончить общение напишите \"Закончить\"\n"
                     + "Что бы приостановить общение напишите \"Стоп\"\nЧто бы продолжить общение \"Продолжить\"\n");
-            while (!(userAnswer = readUser.readLine()).equals(OUT)) {
+            for (String userAnswer = readUser.readLine(); !(userAnswer).equals(OUT);) {
                 CHAT_LOG.append(userAnswer + System.lineSeparator());
                 String botAnswer = getBotAnswers();
                 if (userAnswer.equals(STOP)) {
