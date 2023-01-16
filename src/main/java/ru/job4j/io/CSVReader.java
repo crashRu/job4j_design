@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CSVReader {
-    private static List<User> userList = new ArrayList<>();
+    private static List<User> userList;
     public static void handle(ArgsName argsName) {
+        userList = new ArrayList<>();
         Path pathIn = Path.of(argsName.get("path"));
         Path pathOUT = Path.of(argsName.get("out"));
         String delimiter = argsName.get("delimiter");
@@ -24,7 +25,7 @@ public class CSVReader {
         writeFile(listFormation(argsName, delimiter), pathOUT);
     }
 
-    private static StringBuilder listFormation(ArgsName argsName, String delimer) {
+    private static String listFormation(ArgsName argsName, String delimer) {
         String filter = argsName.get("filter");
         List<String> filterList = List.of(filter.split("\\,"));
         StringBuilder endListDateUser = new StringBuilder(filter + System.lineSeparator());
@@ -46,10 +47,10 @@ public class CSVReader {
             endListDateUser.delete(endListDateUser.length() - 1, endListDateUser.length());
             endListDateUser.append(System.lineSeparator());
         }
-        return endListDateUser;
+        return endListDateUser.toString().replaceAll("\\,", delimer);
     }
 
-    private static void writeFile(StringBuilder builder, Path path) {
+    private static void writeFile(String builder, Path path) {
         try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(path.toFile())))) {
             out.write(builder.toString());
             out.flush();
