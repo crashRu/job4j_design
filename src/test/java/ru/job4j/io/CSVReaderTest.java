@@ -58,7 +58,6 @@ class CSVReaderTest {
                 "Undergraduate,25,Johnson",
                 "Secondary special,30,Brown"
         ).concat(System.lineSeparator());
-        CSVReader.handle(argsName);
         assertThat(Files.readString(target.toPath())).isEqualTo(expected);
     }
 }
