@@ -25,7 +25,7 @@ public class ArgsName {
         for (String line : args) {
             Matcher matcher = Pattern.compile("^\\-(?<key>[\\w.]+)=(?<value>[A-z0-9-=?.:,;]+$)").matcher(line);
             if (!matcher.matches()) {
-                throw new IllegalArgumentException("Argument does not match pattern");
+                throw new IllegalArgumentException("Argument does not match pattern" + line);
             }
             values.putIfAbsent(matcher.group("key"), matcher.group("value"));
         }
