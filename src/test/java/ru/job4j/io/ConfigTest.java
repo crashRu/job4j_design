@@ -17,14 +17,14 @@ class ConfigTest {
 
     @Test
     void whenErrorLine() {
-        String patch = "./errorData.properties";
+        String patch = "./data/errorData.properties";
         Config conf = new Config(patch);
         Assertions.assertThrows(IllegalArgumentException.class, () -> conf.load());
     }
 
     @Test
     void whenLineIsEmpty() {
-        String patch = "./emptyLine.properties";
+        String patch = "./data/emptyLine.properties";
         Config conf = new Config(patch);
         conf.load();
         assertThat(conf.value("hibernate.connection.username")).isEqualTo("root");
