@@ -1,7 +1,6 @@
 package ru.job4j.iterator;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Iterator;
