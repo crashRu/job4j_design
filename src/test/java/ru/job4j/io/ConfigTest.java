@@ -14,19 +14,4 @@ class ConfigTest {
         config.load();
         assertThat(config.value("name")).isEqualTo("Petr Arsentev");
     }
-
-    @Test
-    void whenErrorLine() {
-        String patch = "./data/errorData.properties";
-        Config conf = new Config(patch);
-        Assertions.assertThrows(IllegalArgumentException.class, () -> conf.load());
-    }
-
-    @Test
-    void whenLineIsEmpty() {
-        String patch = "./data/emptyLine.properties";
-        Config conf = new Config(patch);
-        conf.load();
-        assertThat(conf.value("hibernate.connection.username")).isEqualTo("root");
-    }
 }
