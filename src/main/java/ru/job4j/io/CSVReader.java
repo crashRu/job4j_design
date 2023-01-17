@@ -31,16 +31,16 @@ public class CSVReader {
         StringBuilder endListDateUser = new StringBuilder(filter + System.lineSeparator());
         for (int a = 0; a < userList.size(); a++) {
             for (int i = 0; i < filterList.size(); i++) {
-                if (filterList.get(i).equals("name")) {
+                if (("name").equals(filterList.get(i))) {
                     endListDateUser.append(userList.get(a).getName() + delimer);
                 }
-                if (filterList.get(i).equals("age")) {
+                if ("age".equals(filterList.get(i))) {
                     endListDateUser.append(userList.get(a).getAge() + delimer);
                 }
-                if (filterList.get(i).equals("last_name")) {
+                if ("last_name".equals(filterList.get(i))) {
                     endListDateUser.append(userList.get(a).getLastName() + delimer);
                 }
-                if (filterList.get(i).equals("education")) {
+                if ("education".equals(filterList.get(i))) {
                     endListDateUser.append(userList.get(a).getEducation() + delimer);
                 }
             }
@@ -57,12 +57,5 @@ public class CSVReader {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static void main(String[] args) {
-        File file = new File("D:\\job4j\\job4j_design\\src\\data\\text.csv");
-        File target = new File("D:\\job4j\\job4j_design\\src\\data\\text.csv");
-        handle(ArgsName.of(new String[]{"-path=" + file.getAbsolutePath(), "-delimiter=,",
-                "-out=" + target.getAbsolutePath(), "-filter=education,age,last_name"}));
     }
 }
