@@ -58,4 +58,23 @@ public class CSVReader {
             throw new RuntimeException(e);
         }
     }
+    private static void valid(String[] args, ArgsName arguments) {
+        File fileIn = Path.of(arguments.get("-path=")).toFile();
+        File outDirectory = Path.of(arguments.get("-out")).toFile();
+        if (!fileIn.exists()) {
+            throw new IllegalArgumentException(String.format("%s - not exist", args[0]));
+        }
+        if (!outDirectory.exists()) {
+            throw new IllegalArgumentException(String.format("%s - not exist", args[2]));
+        }
+    }
+
+    public static void main(String[] args) {
+        if (args.length != 4) {
+            throw new IllegalArgumentException("Not enough arguments");
+        }
+        ArgsName arguments = ArgsName.of(args);
+        valid(args, arguments);
+
+    }
 }
