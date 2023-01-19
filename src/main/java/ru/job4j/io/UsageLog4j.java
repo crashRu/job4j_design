@@ -17,7 +17,11 @@ public class UsageLog4j {
         short shortTest = 12;
         float floatTest = 11.1F;
 
-        LOG.warn("age: {}\nfeMail: {}\namount: {}\nram: {}\nsmart: {}\nchildren {}\nshortTest: {}\nfloatTest: {}",
+        LOG.warn("Warn: age: {}\nfeMail: {}\namount: {}\nram: {}\nsmart: {}\nchildren {}\nshortTest: {}\nfloatTest: {}",
+                age, feMail, amount, ram, smart, children, shortTest, floatTest);
+        LOG.error("Error: age: {}\nfeMail: {}\namount: {}\nram: {}\nsmart: {}\nchildren {}\nshortTest: {}\nfloatTest: {}",
+                age, feMail, amount, ram, smart, children, shortTest, floatTest);
+        LOG.debug("Debug: age: {}\nfeMail: {}\namount: {}\nram: {}\nsmart: {}\nchildren {}\nshortTest: {}\nfloatTest: {}",
                 age, feMail, amount, ram, smart, children, shortTest, floatTest);
     }
 }
