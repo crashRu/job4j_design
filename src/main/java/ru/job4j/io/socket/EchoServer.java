@@ -26,8 +26,8 @@ public class EchoServer {
                         } else if (str.contains("What")) {
                             out.write("What you want".getBytes());
                         }
-                        out.flush();
                     }
+                    out.flush();
                 }
             }
         }
