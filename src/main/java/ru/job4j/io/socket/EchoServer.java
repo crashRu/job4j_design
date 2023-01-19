@@ -4,10 +4,12 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Objects;
-import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.job4j.io.UsageLog4j;
 
 public class EchoServer {
-    private static final Pattern PARAMETER_MSG_BYE = Pattern.compile("\\?*msg\\=[B-b]ye");
+    private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     public static void main(String[] args) throws IOException {
         try (ServerSocket server = new ServerSocket(9000)) {
@@ -28,8 +30,12 @@ public class EchoServer {
                         }
                     }
                     out.flush();
+                } catch (IOException exception) {
+                    LOG.error("Exception in log example", exception);
                 }
             }
+        } catch (IOException exception) {
+            LOG.error("Exception in log example", exception);
         }
     }
 }
