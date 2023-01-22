@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Worker {
-    String[] Responsibilities;
+    String[] responsibilities;
     Position position;
     String name;
     int age;
@@ -23,7 +23,7 @@ public class Worker {
     }
 
     public Worker(String[] responsibilities, Position position, String name, int age, boolean sex) {
-        Responsibilities = responsibilities;
+        responsibilities = responsibilities;
         this.position = position;
         this.name = name;
         this.age = age;
@@ -31,11 +31,11 @@ public class Worker {
     }
 
     public String[] getResponsibilities() {
-        return Responsibilities;
+        return responsibilities;
     }
 
     public void setResponsibilities(String[] responsibilities) {
-        Responsibilities = responsibilities;
+        responsibilities = responsibilities;
     }
 
     public Position getPosition() {
@@ -72,27 +72,31 @@ public class Worker {
 
     @Override
     public String toString() {
-        return "Worker{" +
-                "Responsibilities=" + Arrays.toString(Responsibilities) +
-                ", position=" + position +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", sex=" + sex +
-                '}';
+        return "Worker{"
+               + "Responsibilities=" + Arrays.toString(responsibilities)
+               + ", position=" + position
+               + ", name='" + name + '\''
+               + ", age=" + age
+               + ", sex=" + sex
+               + '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Worker worker = (Worker) o;
-        return age == worker.age && sex == worker.sex && Arrays.equals(Responsibilities, worker.Responsibilities) && position == worker.position && Objects.equals(name, worker.name);
+        return age == worker.age && sex == worker.sex && Arrays.equals(responsibilities, worker.responsibilities) && position == worker.position && Objects.equals(name, worker.name);
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hash(position, name, age, sex);
-        result = 31 * result + Arrays.hashCode(Responsibilities);
+        result = 31 * result + Arrays.hashCode(responsibilities);
         return result;
     }
 

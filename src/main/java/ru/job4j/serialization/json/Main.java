@@ -6,7 +6,7 @@ import ru.job4j.serialization.Contact;
 
 public class Main {
     public static void main(String[] args) {
-        final Person person = new Person(false, 30, new Contact(99,"11-111"),
+        final Person person = new Person(false, 30, new Contact(99, "11-111"),
                 new String[] {"Worker", "Married"});
 
         /* Преобразуем объект person в json-строку. */
