@@ -1,29 +1,27 @@
 package ru.job4j.serialization.json;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
+import javax.xml.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Objects;
 
+@XmlRootElement(name = "worker")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Worker {
-    String[] responsibilities;
-    Position position;
-    String name;
-    int age;
-    boolean sex;
+    @XmlAttribute
+    private String[] responsibilities;
+    private Position position;
+    @XmlAttribute
+    private String name;
+    @XmlAttribute
+    private int age;
+    @XmlAttribute
+    private boolean sex;
 
-    public static void main(String[] args) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        Worker work = new Worker(new String[]{"perseverance", "Attentiveness"}, Position.DIRECTOR, "Jack", 37, true);
-        String json = gson.toJson(work);
-        System.out.println(json);
-        var obj = gson.fromJson(json, Worker.class);
-        System.out.println(obj);
+    public Worker() {
     }
 
     public Worker(String[] responsibilities, Position position, String name, int age, boolean sex) {
-        responsibilities = responsibilities;
+        this.responsibilities = responsibilities;
         this.position = position;
         this.name = name;
         this.age = age;
@@ -71,17 +69,6 @@ public class Worker {
     }
 
     @Override
-    public String toString() {
-        return "Worker{"
-               + "Responsibilities=" + Arrays.toString(responsibilities)
-               + ", position=" + position
-               + ", name='" + name + '\''
-               + ", age=" + age
-               + ", sex=" + sex
-               + '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -100,4 +87,14 @@ public class Worker {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Worker{"
+                + "Responsibilities=" + Arrays.toString(responsibilities)
+                + ", position=" + position
+                + ", name='" + name + '\''
+                + ", age=" + age
+                + ", sex=" + sex
+                + '}';
+    }
 }
