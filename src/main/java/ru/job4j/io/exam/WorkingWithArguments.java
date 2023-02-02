@@ -16,9 +16,9 @@ public class WorkingWithArguments {
 
 
     public WorkingWithArguments(String[] args, ArgsName argsName) {
-        argsValid();
         this.args = args;
         this.argsName = argsName;
+        argsValid();
         searchPath = argsName.get("d");
         criteriaSearch = argsName.get("n");
         typeSearch = argsName.get("t");
