@@ -2,35 +2,38 @@ package ru.job4j.io.exam;
 
 import ru.job4j.io.ArgsName;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import static ru.job4j.io.Search.search;
 
 public class Main {
-    public static void main(String[] args) {
-        String log = "null;";
+    public static void main(String[] args) throws IOException {
         args = new String[]{"-d=C:\\Users\\User\\Desktop", "-n=txt", "-t=mask", "-o=log.txt"};
-        ArgsName arguments = ArgsName.of(args);
-        WorkingWithArguments arg = new WorkingWithArguments(args, arguments);
-        Path start = Paths.get(arg.getSearchPath());
-        try {
-            search(start, p -> p.toFile().getName().endsWith(arg.getCriteriaSearch())).forEach(System.out::println);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (args.length  != 4) {
+            throw new IllegalArgumentException("Not enough arguments");
         }
-
-
-        try (BufferedWriter buff = new BufferedWriter(new FileWriter(arg.getPathLogWriter()))) {
-            buff.write(log);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        ArgsName argsName = ArgsName.of(args);
+        valid(args, argsName);
+    }
+    
+    private static void valid(String[] args, ArgsName arguments) {
+        File directory = Path.of(arguments.get("d")).toFile();
+        if (!directory.exists()) {
+            throw new IllegalArgumentException(String.format("%s - not exist", args[0]));
         }
+        if (!directory.isDirectory()) {
+            throw new IllegalArgumentException(String.format("%s - not directory", args[0]));
+        }
+        if (!arguments.get("n").startsWith("\\w+") || !arguments.get("t").startsWith("\\w+")) {
+            throw new IllegalArgumentException("This search argument is not extension.");
+        }
+        if (!arguments.get("o").endsWith("\\.\\w+")) {
+            throw new IllegalArgumentException("Argument must be in .zip format");
+        }
+        System.out.println("valid complete!");
     }
 }
