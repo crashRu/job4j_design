@@ -23,7 +23,7 @@ public class ArgsName {
             throw new IllegalArgumentException("Argument is not found");
         }
         for (String line : args) {
-            Matcher matcher = Pattern.compile("^\\-(?<key>[\\w.]+)=(?<value>[A-z0-9-=?*.:,;\\/]+$)").matcher(line);
+            Matcher matcher = Pattern.compile("^\\-(?<key>[\\w.]+)=(?<value>[А-я0-9A-z0-9-=?*-.+|:,;\\/\\\\ ]+$)").matcher(line);
             if (!matcher.matches()) {
                 throw new IllegalArgumentException("Argument does not match pattern" + line);
             }
