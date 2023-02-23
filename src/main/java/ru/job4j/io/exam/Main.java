@@ -24,14 +24,20 @@ public class Main {
         String tArgument = argsName.get("t");
         String nArgument = argsName.get("n");
         Path dArgument = Path.of(argsName.get("d"));
-        if (tArgument.equals("regex")) {
-            rsl = search(dArgument, a -> a.getFileName().toString().matches(nArgument));
-        } else if (tArgument.equals("mask")) {
-            rsl = search(dArgument, a -> a.getFileName().toString().endsWith(nArgument));
+        if (tArgument.equals("regex") || tArgument.equals("mask")) {
+            rsl = search(dArgument, a -> a.getFileName().toString().matches(
+                    tArgument.equals("mask") ? fitsMask(nArgument) : nArgument));
         } else if (tArgument.equals("name")) {
             rsl = search(dArgument, a -> a.getFileName().toString().equals(nArgument));
         }
+        System.out.println(rsl);
         return rsl;
+    }
+
+    private static String fitsMask(String sFileMask) {
+        String mask = sFileMask.replace(".", "[.]").replace("*", ".*")
+                .replace("?", ".");
+        return mask;
     }
 
     private static void fileWrite(List<Path> rsl, String fileName) {
