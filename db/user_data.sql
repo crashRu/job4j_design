@@ -1,4 +1,4 @@
-create table user_data (
+create table user_data(
     id serial primary key, 
     name text,
 	password varchar(255),
