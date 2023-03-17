@@ -1,27 +1,27 @@
-CREATE TABLE users (
-user_id int PRIMARY KEY,
-user_name text,
-user_password text,
-email text,
-user_role text
-);
-
-CREATE TABLE t_rules (
+CREATE TABLE rules (
 rules_id serial PRIMARY KEY,
 rules_name text,
 level_role int
 );
 
-CREATE TABLE user_role(
+CREATE TABLE role(
 role_id serial PRIMARY KEY,
 role_name text,
-user_id int references users(user_id)
+);
+
+CREATE TABLE users (
+user_id int PRIMARY KEY,
+user_name text,
+user_password text,
+email text,
+user_role text,
+role_id int references role(role_id)
 );
 
 CREATE TABLE role_rules(
 id serial PRIMARY KEY,
-role_id int REFERENCES user_role(role_id),
-rules_id int  REFERENCES t_rules(rules_id)
+role_id int REFERENCES role(role_id),
+rules_id int  REFERENCES rules(rules_id)
 );
 
 CREATE TABLE state(
