@@ -6,7 +6,7 @@ level_role int
 
 CREATE TABLE role(
 role_id serial PRIMARY KEY,
-role_name text,
+role_name text
 );
 
 CREATE TABLE users (
